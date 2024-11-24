@@ -1,0 +1,89 @@
+{
+	"UWGA_evaluate" : 
+	{
+		"inputs" : 
+		[
+			{
+				"kind" : "required",
+				"name" : "WGNum",
+				"purpose" : "阵列波导",
+				"type" : 
+				[
+					"integer",
+					">2"
+				]
+			},
+			{
+				"kind" : "required",
+				"name" : "L",
+				"purpose" : "演化长度",
+				"type" : 
+				[
+					"positive"
+				]
+			},
+			{
+				"kind" : "required",
+				"name" : "kappa",
+				"purpose" : "耦合系数(哈密顿量次对角线",
+				"type" : 
+				[
+					"numeric"
+				]
+			},
+			{
+				"kind" : "namevalue",
+				"name" : "EvalutionNum",
+				"purpose" : "计算数目(划分L的数量",
+				"type" : 
+				[
+					"integer",
+					">2"
+				]
+			},
+			{
+				"kind" : "namevalue",
+				"name" : "beta",
+				"purpose" : "传播常数(哈密顿量主对角线",
+				"type" : 
+				[
+					"numeric"
+				]
+			}
+		]
+	},
+	"_schemaVersion" : "1.0.0",
+	"gauss2fit" : 
+	{
+		"inputs" : 
+		[
+			{
+				"kind" : "required",
+				"name" : "x",
+				"purpose" : "x轴",
+				"type" : 
+				[
+					"vector"
+				]
+			},
+			{
+				"kind" : "required",
+				"name" : "y",
+				"purpose" : "y轴",
+				"type" : 
+				[
+					"vector"
+				]
+			},
+			{
+				"kind" : "required",
+				"name" : "z",
+				"purpose" : "z值,double",
+				"type" : 
+				[
+					"vector"
+				]
+			}
+		]
+	}
+}

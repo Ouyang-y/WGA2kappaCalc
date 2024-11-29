@@ -11,6 +11,8 @@ WGA2kappaCalc
 │      WGA-13.png       % init版本识别效果
 │      Result_V0.1.zip  % V0.1版本结果
 │      2_WGA-13.png     % V0.1版本识别效果
+│      Result_V0.2.zip  % V0.2版本结果
+│      9μmWGA-13.png    % V0.2版本识别效果
 ├─resource  % 会用到的函数
 │      functionSignatures.json  % 自定义代码建议和自动填充
 │      gauss2fit.m
@@ -35,6 +37,17 @@ WGA2kappaCalc
         wga_02.bmp
 ```
 ## 更新说明
+### V0.2
+- 修复fig3保存图窗句柄
+- 修复fig3 -- fig3+PathNum绘图的采样位置
+    > ![V0.1 识别效果](images/2_WGA-13.png "V0.1 识别效果")
+    > 第四行(模拟输出)符合度较低
+    > ![V0.2 识别效果](images/9μmWGA-13.png "V0.2 识别效果")
+    > 第四行(模拟输出)采样位置更正
+- 将`Path`改为`picInputPath`避免与搜索路径同名
+- 增加`.emf`图片输出
+- 优化读取路径
+- 优化`KappaCalculate.mat`存储名
 ### V0.1
 1. 改进注释说明
 2. 优化流程逻辑结构

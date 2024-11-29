@@ -3,38 +3,41 @@ close all
 mfilePath = mfilename("fullpath");
 addpath([mfilePath(1:end-length(mfilename)),'\resource'])
 load("OSI_rainbow.mat")
-% Path = {                  % dis = 11μm
-%     '.\test\WGA-1.tiff';  % L = 20-0.22mm  (0.22为抛光去除量，见.\test\wga_01.bmp
-%     '.\test\WGA-2.tiff';  % L = 17
-%     '.\test\WGA-3.tiff';  % L = 14
-%     '.\test\WGA-4.tiff';  % L = 11
-%     '.\test\WGA-5.tiff';  % L = 8
-%     '.\test\WGA-6.tiff';  % L = 5
-%     '.\test\WGA-7.tiff';  % L = 2
+folderName = ".\test\";
+% picInputPath = {                  % dis = 11μm
+%     "WGA-1.tiff";  % L = 20-0.22mm  (0.22为抛光去除量，见.\test\wga_01.bmp
+%     "WGA-2.tiff";  % L = 17
+%     "WGA-3.tiff";  % L = 14
+%     "WGA-4.tiff";  % L = 11
+%     "WGA-5.tiff";  % L = 8
+%     "WGA-6.tiff";  % L = 5
+%     "WGA-7.tiff";  % L = 2
 %     };
-% printP = "";
-Path = {                    % dis = 9μm
-    % '.\test\WGA-8.tiff';    % L = 20
-    % '.\test\WGA-9.tiff';    % L = 17
-    % '.\test\WGA-10.tiff';   % L = 14
-    % '.\test\WGA-11.tiff';   % L = 11
-    % '.\test\WGA-12.tiff';   % L = 8
-    '.\test\WGA-13.tiff';   % L = 5
-    '.\test\WGA-14.tiff';   % L = 2
+% printP = "11μm";
+picInputPath = {                    % dis = 9μm
+    % "WGA-8.tiff";    % L = 20
+    % "WGA-9.tiff";    % L = 17
+    % "WGA-10.tiff";   % L = 14
+    % "WGA-11.tiff";   % L = 11
+    % "WGA-12.tiff";   % L = 8
+    "WGA-13.tiff";   % L = 5
+    "WGA-14.tiff";   % L = 2
     };
-printP = "2_";  % 输出图片名字前缀，可为空，不可没有该变量
+printP = "9μm";  % 输出图片名字前缀，可为空，不可没有该变量
 num = 13;  % 阵列波导数
 dL = -0.22;  % 从俯视图测量WGA与设计的误差
 L = (5:-3:1)+dL;  % 对应path顺序的耦合长度
 CalculateNum = 200;  % kappa计算数量
 kappa_Calculate = linspace(0.55,0.65,CalculateNum);  % kappa计算范围
-outputPicType = ".pdf";
+% outputPicType = ".pdf";  % latex
+outputPicType = ".emf";  % ppt
 
-outputPath = fileparts(fileparts(Path{1}))+"\output\";  % 输出文件夹 = Path{1}与test同级的output文件夹中
+picInputPath = folderName + picInputPath;
+outputPath = fileparts(fileparts(picInputPath{1}))+"\output\";  % 输出文件夹 = picInputPath{1}与test同级的output文件夹中
 if ~exist(outputPath,"dir"),mkdir(outputPath),end
 % load("OSI_rainbow.mat")
 %% set Kappa calculate in total
-KappaCalculatePath = outputPath + "KappaCalculate.mat";
+KappaCalculatePath = outputPath + printP + "KappaCalculate.mat";
 if exist(KappaCalculatePath,"file"),load(KappaCalculatePath);end
 fprintf("Kappa calculate Checking...\n")
 if ~exist("kappa_Calculate0","var")||logical(CalculateNum-CalculateNum0)||...  % 计算过>计算数量>L数量>计算内容
@@ -66,18 +69,18 @@ ft = fittype('A*exp((-(x-X0).^2/sigmaX2-(y-Y0).^2/sigmaY2)/2)', ...
     independent=["x" "y"],dependent='img', ...
     coefficients=["A" "X0" "Y0" "sigmaX2" "sigmaY2"]);
 % 初始化结果存储
-PathNum = size(Path,1);
+PathNum = size(picInputPath,1);
 Rsqure = nan(PathNum,CalculateNum);
 [res.A,res.X,res.Y,res.WX,res.WY,res.rangeRight,res.rangeleft] = ...
     deal(nan(PathNum,num));
 % 按图开始计算
 for temp = 1:PathNum
-    fprintf("%d/%d:%s --- Calculating...\n",temp,PathNum,Path{temp})
+    fprintf("%d/%d:%s --- Calculating...\n",temp,PathNum,picInputPath{temp})
     % debuge用做断点
     % if tempSub==10
-    %     XXXXX=1;
+    %     debug=1;
     % end
-    im = imread(Path{temp});
+    im = imread(picInputPath{temp});
     imgSize = size(im);
     imgRemoveBG = im(:,:,1);  % 灰度图只需要第一层
     img.(['img0_',num2str(temp)])=imgRemoveBG;
@@ -182,7 +185,7 @@ xlabel('L(mm)');ylabel('num');
 box off
 exportgraphics(f2,outputPath+printP+"Sim"+outputPicType,ContentType="vector")
 %% fig3 - 绘制保存模拟(俯视)演化图 带有Path对应长度标记
-Lselect = (L-dL)*100;
+Lselect = ceil(L*100);
 Sim = WGA(:,Lselect)';
 lineHalfWid = 1;
 imgWGAt = IMrgb;
@@ -201,7 +204,7 @@ yticklabels(split(num2str(num:-1:1)))
 drawnow;ax = gca;ax.TickDir='out';ax.FontSize=22;ax.LineWidth=2;
 xlabel('L(mm)');ylabel('num');
 box off
-exportgraphics(f2,outputPath+printP+"SimCut"+outputPicType,ContentType="vector")
+exportgraphics(f3,outputPath+printP+"SimCut"+outputPicType,ContentType="vector")
 %% fig4 -- fig3+PathNum - 各L对应绘图[数据图;findpeaks图;拟合图;kappa演化图]
 for temp = 1:PathNum
     figure
@@ -236,7 +239,7 @@ for temp = 1:PathNum
     imagesc(ExpImg);colormap(OSI_rainbow(2:end-1,:));grid off;box off;axis off
     nexttile
     imagesc(SimImg);colormap(OSI_rainbow(2:end-1,:));grid off;box off;axis off
-    [~,name]=fileparts(Path{temp});
+    [~,name]=fileparts(picInputPath{temp});
     title(t,name)
     exportgraphics(t,outputPath+printP+string(name)+outputPicType,ContentType="vector")
 end

@@ -35,6 +35,12 @@ WGA2kappaCalc
         wga_02.bmp
 ```
 ## 更新说明
+### V0.2
+- 修复fig3 -- fig3+PathNum绘图的采样位置
+- 将`Path`改为`picInputPath`避免与搜索路径同名
+- 增加`.emf`图片输出
+- 优化读取路径
+- 优化`KappaCalculate.mat`存储名
 ### V0.1
 1. 改进注释说明
 2. 优化流程逻辑结构

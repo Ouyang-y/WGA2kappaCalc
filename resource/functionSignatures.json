@@ -1,5 +1,6 @@
 {
-	"UWGA_evaluate" : 
+	"_schemaVersion" : "0.3",
+	"WGA_evaluate" : 
 	{
 		"inputs" : 
 		[
@@ -10,7 +11,7 @@
 				"type" : 
 				[
 					"integer",
-					">2"
+					">1"
 				]
 			},
 			{
@@ -33,12 +34,20 @@
 			},
 			{
 				"kind" : "namevalue",
-				"name" : "EvalutionNum",
-				"purpose" : "计算数目(划分L的数量",
+				"name" : "dl",
+				"purpose" : "演化长度误差",
 				"type" : 
 				[
-					"integer",
-					">2"
+					"<=0"
+				]
+			},
+			{
+				"kind" : "namevalue",
+				"name" : "EdgeKappa",
+				"purpose" : "边界耦合系数(哈密顿量次对角线第一个和最后一个",
+				"type" : 
+				[
+					"numeric"
 				]
 			},
 			{
@@ -49,10 +58,61 @@
 				[
 					"numeric"
 				]
+			},
+			{
+				"kind" : "namevalue",
+				"name" : "EdgeBeta",
+				"purpose" : "边界传播常数(哈密顿量主对角线第一个和最后一个",
+				"type" : 
+				[
+					"numeric"
+				]
+			},
+			{
+				"kind" : "namevalue",
+				"name" : "isEnd",
+				"purpose" : "是否只计算L处的结果",
+				"type" : 
+				[
+					"logical"
+				]
+			},
+			{
+				"kind" : "namevalue",
+				"name" : "EvalutionNum",
+				"purpose" : "计算数目(划分L的数量",
+				"type" : 
+				[
+					"integer",
+					">2"
+				]
 			}
 		]
 	},
-	"_schemaVersion" : "1.0.0",
+	"WGA_evaluate_expm_func" : 
+	{
+		"inputs" : 
+		[
+			{
+				"kind" : "required",
+				"name" : "options",
+				"purpose" : "[dl,kappa,EdgeKappa,beta,EdgeBeta,WGNum]",
+				"type" : 
+				[
+					"size=1,6"
+				]
+			},
+			{
+				"kind" : "required",
+				"name" : "zn",
+				"purpose" : "演化长度；波导序号",
+				"type" : 
+				[
+					"size=:,2"
+				]
+			}
+		]
+	},
 	"gauss2fit" : 
 	{
 		"inputs" : 

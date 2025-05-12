@@ -39,6 +39,8 @@ WGA2kappaCalc
         wga_02.bmp
 ```
 ## 更新说明
+### V0.4
+- 修复识别为单个光斑时提取数目过多
 ### V0.3
 - 采用最小二乘问题的L-M算法计算参数 p=[dl,kappa,EdgeKappa,beta,EdgeBeta,WGNum]
 ### V0.2

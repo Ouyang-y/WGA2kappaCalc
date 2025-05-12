@@ -78,7 +78,7 @@ for temp = 1:PathNum
     locstemp = [1,locs,size(C,2)];  % 加入左边界1和右边界size(C,2)
     if isscalar(locs)
         difflocs = diff(locstemp);
-        minDis = round(max(difflocs)/(num-0.5));
+        minDis = round(max(difflocs)/num*2);
         ttlocs = locs:minDis:size(C,2);
         if size(ttlocs,2) > 1
             locstemp = [sort(locs:-minDis:1),ttlocs(2:end)];
